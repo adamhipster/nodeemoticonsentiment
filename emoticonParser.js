@@ -21,11 +21,18 @@ exports.analyzeSentiment = function(tweet){
 		let sentimentalTweet = {
 			amntPos : matchesAmount.positive,
 			amntNeg : matchesAmount.negative,
+			text : text,
 			timestamp : timestamp,
 		};
 		client.lpush("sentiment_frequencies", JSON.stringify(sentimentalTweet), function(error, value){
   			if(error) throw error;
 		});
+
+		//debug: these values should be left untouched
+		client.lpush("sentiment_frequencies_debug", JSON.stringify(sentimentalTweet), function(error, value){
+  			if(error) throw error;
+		});
+
 	}
 }
 
