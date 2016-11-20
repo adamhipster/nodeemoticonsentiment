@@ -17,7 +17,7 @@ exports.analyzeSentiment = function(tweet){
 			positive : emojisOfTweet.positive?emojisOfTweet.positive.length:0,
 			negative : emojisOfTweet.negative?emojisOfTweet.negative.length:0,
 		};
-		console.log(text);
+		console.log("Incoming tweet: " + text);
 		let sentimentalTweet = {
 			amntPos : matchesAmount.positive,
 			amntNeg : matchesAmount.negative,
