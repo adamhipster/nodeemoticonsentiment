@@ -1,0 +1,19 @@
+{
+  "name": "twitter_streaming_app",
+  "version": "0.1.0",
+  "description": "Web app which detects positive or negative sentiment by scanning emoticons",
+  "main": "app.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "keywords": [
+    "sentiment",
+    "analysis",
+    "emoticons"
+  ],
+  "author": "Melvin Roest <melvinroest@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "twit": "^2.2.5"
+  }
+}
