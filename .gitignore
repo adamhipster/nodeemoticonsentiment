@@ -6,6 +6,7 @@ TO DO
 *.sublime-workspace
 
 # App specific
+.env
 config.js
 ignore/*
 dump.rdb
