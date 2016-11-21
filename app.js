@@ -9,22 +9,21 @@ let ratioCalculator = require('./calculateRatio');
 let redis = require('redis');
 let client = redis.createClient();
 
+//Currently not handling requests yet
 app.get('/', function(request, response){
-	console.log(twit.stream('statuses/sample'));
 	response.end("Here's a response\n");
 });
 
+//Parse for emoticons for every tweet
+//If it has emoticons then store the pos/neg freq in redis
 stream.on('message', function (msg) {
-	let lang = msg["lang"];
+	let lang = msg.lang;
 	if(lang === "en"){
-		let tweet = {
-			text: msg.text,
-			timestamp: msg.timestamp_ms
-		};
-		emoticonParser.analyzeSentiment(tweet);
+		emoticonParser.parseEmoticonsAndStoreFreqs(client, msg);
 	}
 });
 
+//Get new freqs and recalculate the ratio
 setInterval(function(){
 	ratioCalculator.calculateRatio(client);
 }, 5000);
