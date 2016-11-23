@@ -40,6 +40,7 @@ function popTweet (client, numUnprocessedTweets, redisData, i){
 		if(i === numUnprocessedTweets-1){
 			getFreqsAndCalculateRatio(redisData, client);
 		}
+		logIteration(tweet, redisData, i);
 	});
 }
 
@@ -51,7 +52,7 @@ function getFreqsAndCalculateRatio(redisData, client){
 			let total_negative_tweets = isNumeric(message)?parseInt(message) : 0;
 			total_positive_tweets += redisData.posTweets;
 			total_negative_tweets += redisData.negTweets;
-			let ratio = (total_positive_tweets+.01)/(total_positive_tweets+total_negative_tweets+0.01);
+			let ratio = (total_positive_tweets)/(total_positive_tweets+total_negative_tweets);
 			
 			console.log("\nRATIO: " + ratio); 
 			console.log("Calculation is: " + "total_positive_tweets" + " / " + "total_positive_tweets" + "+" + "total_negative_tweets");
@@ -71,6 +72,16 @@ function logCallbackHell(){
 	"---------------------------" +
 	"\nEND OF CALLBACK HELL part " + callbackHellCounter + "\n" +
 	"---------------------------" + "\n");		
+}
+
+function logIteration(tweet, redisData, i){
+	console.log("Iteration: " + i);
+	console.log("Message: " + tweet.text);
+	console.log("amntPos: " + tweet.amntPos);
+	console.log("amntNeg: " + tweet.amntNeg);
+	console.log("pos: " + redisData.posTweets);
+	console.log("neg: " + redisData.negTweets);
+	console.log("\n");
 }
 
 function isNumeric(n) {

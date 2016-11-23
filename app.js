@@ -9,36 +9,57 @@ let emoticonParser = require('./emoticonParser');
 let ratioCalculator = require('./calculateRatio');
 let redis = require('redis');
 let client = redis.createClient();
+let server = require('http').createServer(app);
+let io = require('socket.io')(server);
 
 //Currently not handling requests yet
 app.get('/', function(request, response){
-	response.end("Here's a response\n");
+	response.sendFile(__dirname + '/index.html');
+});
+app.use('/', express.static(__dirname + '/js'));
+
+io.on('connection', function (socket) {
+  socket.on('message',function(messagsage_from_browser){
+    console.log("Le message: " + messagsage_from_browser); 
+  });
+  socket.emit('message','Hello, my name is Server');
 });
 
-//Parse for emoticons for every tweet
-//If it has emoticons then store the pos/neg freq in redis
+
+
 stream.on('message', function (msg) {
 	let lang = msg.lang;
 	if(lang === "en"){
 		emoticonParser.parseEmoticonsAndStoreFreqs(client, msg);
 	}
 });
-
-//Get new freqs and recalculate the ratio
+ 
 setInterval(function(){
 	ratioCalculator.calculateRatio(client);
+	client.get('ratio', function(error, ratio){
+		io.emit('ratio', "Twitter ratio: " + ratio);
+	})
 }, 2000);
 
+//LISTENING
 app.listen(portNumber, function() {
-	console.log('Server running at http://127.0.0.1:%d/', portNumber);
+	console.log('Express is running at http://127.0.0.1:%d/', portNumber);
 });
 
+server.listen(8000, function(){
+	console.log("Socket-io is listening to 8000");
+});
 
-//simulating purposes
-// setInterval(function(){
-// 	let testTweet = {
-// 		text: "@DareadDarkgta not a bad idea :)",
-// 		timestamp_ms: 1337,
-// 	};
-// 	emoticonParser.parseEmoticonsAndStoreFreqs(client, testTweet);
-// }, 1500);
+//SIMULATIONS AND TESTING
+// simulateTweets();
+
+function simulateTweets(){
+
+	setInterval(function(){
+		let testTweet = {
+			text: "@DareadDarkgta not a bad idea :)",
+			timestamp_ms: 1337,
+		};
+		emoticonParser.parseEmoticonsAndStoreFreqs(client, testTweet);
+	}, 1500);
+}
