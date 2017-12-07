@@ -25,7 +25,7 @@ const POSITIVE = [
 		":P"
 		];
 
-const POSITIVE_REGEX = /:\)|:d|;\)|:-\)|=\)|:p|:-p/g;
+const POSITIVE_REGEX = /:\)|😂|:d|;\)|:-\)|=\)|:p|:-p/g;
 
 //doesn't fully work, would need to write tests.
 // const POSITIVE_REGEX = /:\)|:d|;\)|:-\)|=\)|:p|\(:|xd|=d|=\]|:\]|:o|d:|;d|=p|:-d|^_^|:o\)|:-p|;\]|;p|\(;|=o|;o\)|\[:|:}|:-o|;o|;-d|d;|\[=|\(^_^\)|\(-:|=}|\[;|o;|:-\]|;}|:-}|:=\)|{:|:*\)|;-\]|\(-;|^_^\.|o\(^_^\)o|\*^_^\*|;=\)|:P/g;

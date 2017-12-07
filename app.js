@@ -1,4 +1,3 @@
-require('dotenv').config();
 let express = require('express');
 let app = express();
 let config = require('./config');
@@ -19,8 +18,8 @@ app.get('/', function(request, response){
 app.use('/', express.static(__dirname + '/js'));
 
 io.on('connection', function (socket) {
-  socket.on('message',function(messagsage_from_browser){
-    console.log("Le message: " + messagsage_from_browser); 
+  socket.on('message',function(message_from_browser){
+    console.log("Le message: " + message_from_browser); 
   });
   socket.emit('message','Hello, my name is Server');
 });
@@ -28,16 +27,17 @@ io.on('connection', function (socket) {
 
 
 stream.on('message', function (msg) {
-	let lang = msg.lang;
-	if(lang === "en"){
+	if(msg.lang === "en"){
 		emoticonParser.parseEmoticonsAndStoreFreqs(client, msg);
 	}
 });
- 
+
+//this runs the program
 setInterval(function(){
 	ratioCalculator.calculateRatio(client);
 	client.get('ratio', function(error, ratio){
-		io.emit('ratio', "Twitter ratio: " + ratio);
+		const r = parseFloat(ratio).toFixed(2).toString();
+		io.emit('ratio', r);
 	})
 }, 2000);
 
